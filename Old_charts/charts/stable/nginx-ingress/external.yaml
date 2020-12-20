@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.33.4
+    component: controller
+    heritage: Tiller
+    release: nginx-external
+  name: nginx-external-nginx-ingress-controller
+  namespace: ingress
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - name: http
+    nodePort: 32080
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - name: https
+    nodePort: 32443
+    port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app: nginx-ingress
+    component: controller
+    release: nginx-external
+  sessionAffinity: None
+  type: NodePort
+
